@@ -1,18 +1,20 @@
-# Infinifortress 2
+# Infinifortress
 
-A modern take on the classic voxel-based building and combat game.
+A modern port of the classic Infinifortress mod for Infiniminer.
 
 ## Description
 
-Infinifortress 2 is a multiplayer voxel-based game that combines building mechanics with team-based combat. Players can construct fortresses, mine resources, and engage in tactical warfare.
+Infinifortress is a mod based on Infiniminer that extends the gameplay loop beyond the classic Infiniminer with the addition of research, artifacts, and more abilities to the four classes.
 
 ## Getting Started
+
+WIP
 
 ### Prerequisites
 
 - Visual Studio 2019 or later
 - .NET Framework 4.7.2 or later
-- XNA Framework (if required)
+- MonoGame
 
 ### Building
 
@@ -28,7 +30,7 @@ Infinifortress 2 is a multiplayer voxel-based game that combines building mechan
 
 ## Contributing
 
-Please read [CONTRIBUTORS](CONTRIBUTORS) for details on our code of conduct and the process for submitting pull requests.
+WIP
 
 ## License
 
