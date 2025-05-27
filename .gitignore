@@ -7,6 +7,7 @@
 *.sln.cache
 *.csproj.user
 *.cachefile
+.vscode/
 
 # Build results
 [Dd]ebug/
