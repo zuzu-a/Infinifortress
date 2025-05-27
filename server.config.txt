@@ -1,0 +1,24 @@
+# Infiniminer Server Configuration
+# Server settings
+name=Infiniminer Server
+maxplayers=16
+port=5565
+publiclist=true
+
+# Game settings
+siege=0
+sandbox=false
+tnt=true
+lava=true
+water=true
+artifacts=true
+
+# Map settings
+mapsize=64
+regionsize=16
+winningcash=6
+
+# Advanced settings
+autosave=1
+backupinterval=300
+physicsthreads=1 

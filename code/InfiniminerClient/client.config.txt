@@ -1,0 +1,12 @@
+handle = Player
+width = 1024
+height = 780
+fullscreen = false
+volume = 1
+nosound = false
+yinvert = false
+sensitivity = 5
+pretty = false
+light = false
+inputlagfix = true
+showfps = true

@@ -1,0 +1,61 @@
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.sln.cache
+*.csproj.user
+*.cachefile
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Specific project ignores
+bin/Content
+bin/*.exe
+bin/*.dll
+bin/*.pdb
+bin/*.xml
+bin/*.lvl
+code/*/bin
+code/*/obj
+# for some reason the above two ignores
+# don't work on this directory completely
+code/InfiniminerClient/Content/obj
+code/InfiniminerShared/Content/obj
+
+# Visual Studio cache/options directory
+.vs/
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Visual Studio code coverage results
+*.coverage
+*.coveragexml
+
+# NuGet Packages
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+
+# Local History for Visual Studio
+.localhistory/
