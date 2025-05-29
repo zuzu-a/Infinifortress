@@ -8,6 +8,11 @@
     <TieredCompilation>false</TieredCompilation>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!-- Cross-platform settings -->
+    <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
