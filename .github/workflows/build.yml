@@ -32,22 +32,9 @@ jobs:
 
     - name: Install MGCB
       run: |
-        dotnet tool install -g dotnet-mgcb --version ${{ env.MONOGAME_VERSION }}
-        dotnet tool install -g dotnet-mgcb-editor --version ${{ env.MONOGAME_VERSION }}
+        dotnet tool install -g dotnet-mgcb
+        dotnet tool install -g dotnet-mgcb-editor
         dotnet tool restore
-
-    - name: Create MGCB Config
-      shell: pwsh
-      run: |
-        $configPath = "$env:USERPROFILE/.mgcb"
-        New-Item -ItemType Directory -Force -Path (Split-Path $configPath)
-        @"
-        /platform:DesktopGL
-        /profile:HiDef
-        /compress:False
-        /config:
-        /reference:
-        "@ | Set-Content $configPath
 
     - name: Restore Dependencies
       run: dotnet restore ${{ env.SOLUTION_FILE }}
@@ -98,22 +85,9 @@ jobs:
 
     - name: Install MGCB
       run: |
-        dotnet tool install -g dotnet-mgcb --version ${{ env.MONOGAME_VERSION }}
-        dotnet tool install -g dotnet-mgcb-editor --version ${{ env.MONOGAME_VERSION }}
+        dotnet tool install -g dotnet-mgcb
+        dotnet tool install -g dotnet-mgcb-editor
         dotnet tool restore
-
-    - name: Create MGCB Config
-      shell: pwsh
-      run: |
-        $configPath = if ($IsWindows) { "$env:USERPROFILE/.mgcb" } else { "$env:HOME/.mgcb" }
-        New-Item -ItemType Directory -Force -Path (Split-Path $configPath)
-        @"
-        /platform:DesktopGL
-        /profile:HiDef
-        /compress:False
-        /config:
-        /reference:
-        "@ | Set-Content $configPath
 
     - name: Restore Dependencies
       run: dotnet restore ${{ env.SOLUTION_FILE }}
@@ -132,7 +106,7 @@ jobs:
           -r ${{ matrix.config.rid }} `
           --self-contained true `
           -p:PublishSingleFile=true `
-          -o "publish/Infinifortress2-${{ matrix.config.platform }}-Client"
+          -o "publish/Infinifortress2-${{ matrix.config.rid }}-Client"
 
     - name: Build Server
       shell: pwsh
@@ -142,28 +116,28 @@ jobs:
           -r ${{ matrix.config.rid }} `
           --self-contained true `
           -p:PublishSingleFile=true `
-          -o "publish/Infinifortress2-${{ matrix.config.platform }}-Server"
+          -o "publish/Infinifortress2-${{ matrix.config.rid }}-Server"
 
     - name: Package Builds
       shell: pwsh
       run: |
         # Package client
         Compress-Archive `
-          -Path "publish/Infinifortress2-${{ matrix.config.platform }}-Client/*" `
-          -DestinationPath "Infinifortress2-${{ matrix.config.platform }}-Client.zip"
+          -Path "publish/Infinifortress2-${{ matrix.config.rid }}-Client/*" `
+          -DestinationPath "Infinifortress2-${{ matrix.config.rid }}-Client.zip"
         
         # Package server
         Compress-Archive `
-          -Path "publish/Infinifortress2-${{ matrix.config.platform }}-Server/*" `
-          -DestinationPath "Infinifortress2-${{ matrix.config.platform }}-Server.zip"
+          -Path "publish/Infinifortress2-${{ matrix.config.rid }}-Server/*" `
+          -DestinationPath "Infinifortress2-${{ matrix.config.rid }}-Server.zip"
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: Infinifortress2-${{ matrix.config.platform }}
+        name: Infinifortress2-${{ matrix.config.rid }}
         path: |
-          Infinifortress2-${{ matrix.config.platform }}-Client.zip
-          Infinifortress2-${{ matrix.config.platform }}-Server.zip
+          Infinifortress2-${{ matrix.config.rid }}-Client.zip
+          Infinifortress2-${{ matrix.config.rid }}-Server.zip
         retention-days: 5
 
   # Third job: Create the actual release (only on tags)
@@ -189,13 +163,13 @@ jobs:
             This release includes:
             
             Windows:
-            - Infinifortress2-Windows-Client.zip
-            - Infinifortress2-Windows-Server.zip
+            - Infinifortress2-win-x64-Client.zip
+            - Infinifortress2-win-x64-Server.zip
             
             Linux:
-            - Infinifortress2-Linux-Client.zip
-            - Infinifortress2-Linux-Server.zip
+            - Infinifortress2-linux-x64-Client.zip
+            - Infinifortress2-linux-x64-Server.zip
             
             macOS:
-            - Infinifortress2-MacOS-Client.zip
-            - Infinifortress2-MacOS-Server.zip 
+            - Infinifortress2-osx-x64-Client.zip
+            - Infinifortress2-osx-x64-Server.zip 
