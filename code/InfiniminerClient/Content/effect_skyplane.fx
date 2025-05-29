@@ -63,7 +63,7 @@ technique Skyplane
 {
 	pass Pass0
 	{   
-		VertexShader = compile vs_2_0 TexturedVS();
-		PixelShader  = compile ps_2_0 TexturedPS();
+		VertexShader = compile vs_4_0_level_9_1 TexturedVS();
+		PixelShader  = compile ps_4_0_level_9_1 TexturedPS();
 	}
 }

@@ -42,7 +42,7 @@ jobs:
         $configPath = "$env:USERPROFILE/.mgcb"
         New-Item -ItemType Directory -Force -Path (Split-Path $configPath)
         @"
-        /platform:Windows
+        /platform:DesktopGL
         /profile:HiDef
         /compress:False
         /config:
@@ -56,7 +56,7 @@ jobs:
       shell: pwsh
       run: |
         cd code/InfiniminerClient/Content
-        mgcb Content.mgcb /platform:Windows
+        mgcb Content.mgcb /platform:DesktopGL
 
     - name: Build Solution
       run: dotnet build ${{ env.SOLUTION_FILE }} -c Release --no-restore
@@ -69,13 +69,10 @@ jobs:
       matrix:
         config:
           - os: windows-latest
-            platform: Windows
             rid: win-x64
           - os: ubuntu-latest
-            platform: Linux 
             rid: linux-x64
           - os: macos-latest
-            platform: MacOS
             rid: osx-x64
     
     runs-on: ${{ matrix.config.os }}
@@ -111,7 +108,7 @@ jobs:
         $configPath = if ($IsWindows) { "$env:USERPROFILE/.mgcb" } else { "$env:HOME/.mgcb" }
         New-Item -ItemType Directory -Force -Path (Split-Path $configPath)
         @"
-        /platform:${{ matrix.config.platform }}
+        /platform:DesktopGL
         /profile:HiDef
         /compress:False
         /config:
@@ -125,7 +122,7 @@ jobs:
       shell: pwsh
       run: |
         cd code/InfiniminerClient/Content
-        mgcb Content.mgcb /platform:${{ matrix.config.platform }}
+        mgcb Content.mgcb /platform:DesktopGL
 
     - name: Build Client
       shell: pwsh
