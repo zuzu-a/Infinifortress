@@ -16,6 +16,7 @@ permissions:
 env:
   SOLUTION_FILE: code/Infiniminer.sln
   DOTNET_VERSION: '8.0.x'
+  MONOGAME_VERSION: '3.8.2.1105'
 
 jobs:
   # First job: Verify the build works (for PRs and pushes)
@@ -31,9 +32,22 @@ jobs:
 
     - name: Install MGCB
       run: |
-        dotnet tool install -g dotnet-mgcb
-        dotnet tool install -g dotnet-mgcb-editor
+        dotnet tool install -g dotnet-mgcb --version ${{ env.MONOGAME_VERSION }}
+        dotnet tool install -g dotnet-mgcb-editor --version ${{ env.MONOGAME_VERSION }}
         dotnet tool restore
+
+    - name: Create MGCB Config
+      shell: pwsh
+      run: |
+        $configPath = "$env:USERPROFILE/.mgcb"
+        New-Item -ItemType Directory -Force -Path (Split-Path $configPath)
+        @"
+        /platform:Windows
+        /profile:HiDef
+        /compress:False
+        /config:
+        /reference:
+        "@ | Set-Content $configPath
 
     - name: Restore Dependencies
       run: dotnet restore ${{ env.SOLUTION_FILE }}
@@ -87,9 +101,22 @@ jobs:
 
     - name: Install MGCB
       run: |
-        dotnet tool install -g dotnet-mgcb
-        dotnet tool install -g dotnet-mgcb-editor
+        dotnet tool install -g dotnet-mgcb --version ${{ env.MONOGAME_VERSION }}
+        dotnet tool install -g dotnet-mgcb-editor --version ${{ env.MONOGAME_VERSION }}
         dotnet tool restore
+
+    - name: Create MGCB Config
+      shell: pwsh
+      run: |
+        $configPath = if ($IsWindows) { "$env:USERPROFILE/.mgcb" } else { "$env:HOME/.mgcb" }
+        New-Item -ItemType Directory -Force -Path (Split-Path $configPath)
+        @"
+        /platform:${{ matrix.config.platform }}
+        /profile:HiDef
+        /compress:False
+        /config:
+        /reference:
+        "@ | Set-Content $configPath
 
     - name: Restore Dependencies
       run: dotnet restore ${{ env.SOLUTION_FILE }}
