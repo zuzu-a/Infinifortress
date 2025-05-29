@@ -3,8 +3,7 @@ name: Build and Release
 on:
   push:
     branches: [ main ]
-    tags:
-      - 'v*'
+    tags: [ 'v*' ]
   pull_request:
     branches: [ main ]
 
@@ -19,34 +18,65 @@ env:
   DOTNET_VERSION: '8.0.x'
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        config:
-          - os: windows-latest
-            rid: win-x64
-            platform: Windows
-          - os: ubuntu-latest
-            rid: linux-x64
-            platform: Linux
-          - os: macos-latest
-            rid: osx-x64
-            platform: MacOS
-    
-    runs-on: ${{ matrix.config.os }}
-    
+  # First job: Verify the build works (for PRs and pushes)
+  verify:
+    runs-on: windows-latest # MonoGame content build works best on Windows
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0 # For version tagging
-    
+    - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Update Version (on tag)
-      if: startsWith(github.ref, 'refs/tags/')
+    - name: Install MGCB
+      run: |
+        dotnet tool install -g dotnet-mgcb
+        dotnet tool install -g dotnet-mgcb-editor
+        dotnet tool restore
+
+    - name: Restore Dependencies
+      run: dotnet restore ${{ env.SOLUTION_FILE }}
+
+    - name: Build Content
+      shell: pwsh
+      run: |
+        cd code/InfiniminerClient/Content
+        mgcb Content.mgcb /platform:Windows
+
+    - name: Build Solution
+      run: dotnet build ${{ env.SOLUTION_FILE }} -c Release --no-restore
+
+  # Second job: Build releases for all platforms (only on tags)
+  release-build:
+    needs: verify
+    if: startsWith(github.ref, 'refs/tags/')
+    strategy:
+      matrix:
+        config:
+          - os: windows-latest
+            platform: Windows
+            rid: win-x64
+          - os: ubuntu-latest
+            platform: Linux 
+            rid: linux-x64
+          - os: macos-latest
+            platform: MacOS
+            rid: osx-x64
+    
+    runs-on: ${{ matrix.config.os }}
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Update Version
       shell: pwsh
       run: |
         $version = "${{ github.ref_name }}"
@@ -104,7 +134,7 @@ jobs:
           -DestinationPath "Infinifortress2-${{ matrix.config.platform }}-Server.zip"
 
     - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Infinifortress2-${{ matrix.config.platform }}
         path: |
@@ -112,18 +142,16 @@ jobs:
           Infinifortress2-${{ matrix.config.platform }}-Server.zip
         retention-days: 5
 
+  # Third job: Create the actual release (only on tags)
   create-release:
-    needs: build
+    needs: release-build
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     
     steps:
       - name: Download All Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         
-      - name: Display structure
-        run: ls -R
-
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
