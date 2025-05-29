@@ -1,11 +1,10 @@
-
 #----------------------------- Global Properties ----------------------------#
 
 /outputDir:bin
 /intermediateDir:obj
 /platform:DesktopGL
 /config:
-/profile:Reach
+/profile:HiDef
 /compress:False
 
 #-------------------------------- References --------------------------------#
