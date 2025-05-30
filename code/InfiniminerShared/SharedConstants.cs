@@ -5,7 +5,7 @@ namespace Infiniminer
 {
     public class Defines
     {
-        public const string INFINIMINER_VERSION = "v2.0 Infinifortress";
+        public const string INFINIMINER_VERSION = "v1.0.0 Infinifortress";
         public const int GROUND_LEVEL = 8;
 
         /*public const string deathByLava = "HAD AN UNFORTUNATE SMELTING ACCIDENT!";

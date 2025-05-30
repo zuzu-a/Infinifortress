@@ -68,7 +68,7 @@ jobs:
             -r $rid `
             --self-contained true `
             -p:PublishSingleFile=true `
-            -o "publish/Infinifortress2-$rid-Client"
+            -o "publish/Infinifortress-$rid-Client"
 
           # Build Server  
           dotnet publish code/InfiniminerServer/InfiniminerServer.csproj `
@@ -76,48 +76,48 @@ jobs:
             -r $rid `
             --self-contained true `
             -p:PublishSingleFile=true `
-            -o "publish/Infinifortress2-$rid-Server"
+            -o "publish/Infinifortress-$rid-Server"
 
           # Package builds
           Compress-Archive `
-            -Path "publish/Infinifortress2-$rid-Client/*" `
-            -DestinationPath "Infinifortress2-$rid-Client.zip" -Force
+            -Path "publish/Infinifortress-$rid-Client/*" `
+            -DestinationPath "Infinifortress-$rid-Client.zip" -Force
 
           Compress-Archive `
-            -Path "publish/Infinifortress2-$rid-Server/*" `
-            -DestinationPath "Infinifortress2-$rid-Server.zip" -Force
+            -Path "publish/Infinifortress-$rid-Server/*" `
+            -DestinationPath "Infinifortress-$rid-Server.zip" -Force
         }
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: Infinifortress2-Builds
+        name: Infinifortress-Builds
         path: |
-          Infinifortress2-*-Client.zip
-          Infinifortress2-*-Server.zip
+          Infinifortress-*-Client.zip
+          Infinifortress-*-Server.zip
         retention-days: 5
 
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        name: Infinifortress2 ${{ github.ref_name }}
+        name: Infinifortress ${{ github.ref_name }}
         files: |
-          Infinifortress2-*-Client.zip
-          Infinifortress2-*-Server.zip
+          Infinifortress-*-Client.zip
+          Infinifortress-*-Server.zip
         body: |
           Release ${{ github.ref_name }}
           
           This release includes:
           
           Windows:
-          - Infinifortress2-win-x64-Client.zip
-          - Infinifortress2-win-x64-Server.zip
+          - Infinifortress-win-x64-Client.zip
+          - Infinifortress-win-x64-Server.zip
           
           Linux:
-          - Infinifortress2-linux-x64-Client.zip
-          - Infinifortress2-linux-x64-Server.zip
+          - Infinifortress-linux-x64-Client.zip
+          - Infinifortress-linux-x64-Server.zip
           
           macOS:
-          - Infinifortress2-osx-x64-Client.zip
-          - Infinifortress2-osx-x64-Server.zip 
+          - Infinifortress-osx-x64-Client.zip
+          - Infinifortress-osx-x64-Server.zip 

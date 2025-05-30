@@ -1,1 +1,5 @@
-WIP
+v1.0.0
+
+* Fixed README and included verbose description of controls and config.
+* Fixed GitHub workflow to auto-build and update.
+* Cleaned up the codebase of redundant files.
