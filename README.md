@@ -27,7 +27,7 @@ WIP
 
 1. Navigate to the `bin` directory
 2. Run the executable
-
+gi
 ## Contributing
 
 WIP
