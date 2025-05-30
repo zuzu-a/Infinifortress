@@ -45,6 +45,7 @@ namespace Infiniminer
     {
         double timeSinceLastUpdate = 0;
         string playerHandle = "Player";
+        string serverListURL = "http://zuzu-is.online";
         float volumeLevel = 1.0f;
         NetBuffer msgBuffer = null;
         const float NETWORK_UPDATE_TIME = 0.05f;
@@ -126,7 +127,7 @@ namespace Infiniminer
             // Discover remote servers.
             try
             {
-                string publicList = HttpRequest.Get("http://zuzu-is.online/plain", null);
+                string publicList = HttpRequest.Get(serverListURL + "/plain", null);
                 foreach (string s in publicList.Split("\r\n".ToCharArray()))
                 {
                     string[] args = s.Split(";".ToCharArray());
@@ -1180,6 +1181,8 @@ namespace Infiniminer
             // Load other settings
             if (dataFile.Data.ContainsKey("handle"))
                 playerHandle = dataFile.Data["handle"];
+            if (dataFile.Data.ContainsKey("serverListURL"))
+                serverListURL = dataFile.Data["serverListURL"];
             if (dataFile.Data.ContainsKey("showfps"))
                 DrawFrameRate = bool.Parse(dataFile.Data["showfps"]);
             if (dataFile.Data.ContainsKey("yinvert"))
@@ -1294,6 +1297,7 @@ namespace Infiniminer
 
             propertyBag = new Infiniminer.PropertyBag(this);
             propertyBag.playerHandle = playerHandle;
+            propertyBag.serverListURL = serverListURL;
             propertyBag.volumeLevel = volumeLevel;
             propertyBag.mouseSensitivity = mouseSensitivity;
             propertyBag.keyBinds = keyBinds;

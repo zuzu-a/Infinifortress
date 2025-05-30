@@ -35,6 +35,7 @@ name=Infiniminer Server
 maxplayers=16
 port=5565
 publiclist=true
+serverListURL=http://zuzu-is.online
 
 # Game settings
 siege=0
@@ -65,6 +66,9 @@ windowmode=windowed
 showfps=false
 pretty=true
 light=true
+
+# Network settings
+serverListURL=http://zuzu-is.online
 
 # Control settings
 yinvert=false
@@ -120,6 +124,7 @@ inputlagfix=false";
                 Data["maxplayers"] = "16";
                 Data["port"] = "5565";
                 Data["publiclist"] = "true";
+                Data["serverListURL"] = "http://zuzu-is.online";
                 Data["siege"] = "0";
                 Data["sandbox"] = "false";
                 Data["tnt"] = "true";

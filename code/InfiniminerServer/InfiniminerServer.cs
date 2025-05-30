@@ -42,6 +42,7 @@ namespace Infiniminer
         PlayerTeam[, ,] blockCreatorTeam = null;
         public int[] ResearchChange = { 0, 0, 0 };
         string Filename = "";//threaded saving
+        string serverListURL = "http://zuzu-is.online";
         bool physactive = false;
         int scantime = 2;
         const int TOTAL_ARTS = 19;
@@ -858,6 +859,7 @@ namespace Infiniminer
             //String bindings
             varBind("name", "Server name as it appears on the server browser", "Unnamed Server");
             varBind("greeter", "The message sent to new players", "");
+            varBind("serverListURL", "The URL endpoint to use as a server list", "http://zuzu-is.online");
 
             //Int bindings
             varBind("maxplayers", "Maximum player count", 6);
@@ -5299,6 +5301,7 @@ namespace Infiniminer
                     writer.WriteLine("includelava=true");
                     writer.WriteLine("includewater=true");
                     writer.WriteLine("orefactor=10");
+                    writer.WriteLine("serverListURL=http://zuzu-is.online");
                 }
             }
 
@@ -5318,6 +5321,8 @@ namespace Infiniminer
                 varSet("public", bool.Parse(dataFile.Data["public"]), true);
             if (dataFile.Data.ContainsKey("servername"))
                 varSet("name", dataFile.Data["servername"], true);
+            if (dataFile.Data.ContainsKey("serverListURL"))
+                varSet("serverListURL", dataFile.Data["serverListURL"], true);
             if (dataFile.Data.ContainsKey("sandbox"))
                 varSet("sandbox", bool.Parse(dataFile.Data["sandbox"]), true);
             if (dataFile.Data.ContainsKey("enforceteams"))
@@ -15914,7 +15919,7 @@ namespace Infiniminer
                 {
                     if (!ct.IsCancellationRequested)
                     {
-                        HttpRequest.Post("http://apps.keithholman.net/post", postDict);
+                        HttpRequest.Post(serverListURL + "/post", postDict);
                         ConsoleWrite("PUBLIC LIST: UPDATING SERVER LISTING");
                     }
                 }

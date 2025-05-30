@@ -81,6 +81,7 @@ namespace Infiniminer
         public bool playerRadarMute = false;
         public float playerToolCooldown = 0;
         public string playerHandle = "Player";
+        public string serverListURL = "http://zuzu-is.online";
         public float volumeLevel = 1.0f;
         public uint playerMyId = 0;
         public float radarCooldown = 0;
